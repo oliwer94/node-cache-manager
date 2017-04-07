@@ -8,7 +8,7 @@ var cache = require('persistent-cache');
 
 var mycache = cache({
     //duration: 1000 * 3600 * 24 //one day
-    duration: 1000 * 60 * 10 // 10 mins
+    duration: 1000 * 60 * 1 // 1 mins
 });
 var PORT = process.env.PORT || 4000;
 var app = express();
@@ -43,6 +43,7 @@ app.post('/authenticate', (req, res) => {
     var value = getUserFromCache(token);
     if (value !== undefined) 
     {
+        updateCacheEntryTTL(token,value);
         res.sendStatus(200);
     }
     else {
