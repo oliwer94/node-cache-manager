@@ -8,7 +8,7 @@ var cache = require('persistent-cache');
 
 var mycache = cache({
     //duration: 1000 * 3600 * 24 //one day
-    duration: 1000 * 60 * 1 // 1 mins
+    duration: 1000 * 60 * 60 // 1 mins
 });
 var PORT = process.env.PORT || 4000;
 var app = express();
@@ -49,6 +49,10 @@ app.post('/authenticate', (req, res) => {
     else {
         res.sendStatus(401);
     }
+});
+
+app.get('/ping', (req, res) => {
+   res.send("cache service is up and running");
 });
 
 //Delete users/me/logout
