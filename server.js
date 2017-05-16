@@ -8,7 +8,7 @@ var cache = require('persistent-cache');
 
 var mycache = cache({
     //duration: 1000 * 3600 * 24 //one day
-    duration: 1000 * 60 * 60 // 1 mins
+    duration: 1000 * 60 * 60 * 5 // 5 mins
 });
 var PORT = process.env.PORT || 4000;
 var app = express();
