@@ -36,14 +36,22 @@ function getUserFromCache(token) {
     return mycache.getSync(token);
 }
 
+app.get('showAll', (req, res) => {
+    var keys = mycache.keysSync();
+    var values = [];
+    keys.forEach(element => {
+        values.push({ element, mycache.getSync(element) });
+    })
+    res.send(values);
+});
+
 //authenticate token 
 app.post('/authenticate', (req, res) => {
-
+    mycache.g
     var token = req.body.token;
     var value = getUserFromCache(token);
-    if (value !== undefined) 
-    {
-        updateCacheEntryTTL(token,value);
+    if (value !== undefined) {
+        updateCacheEntryTTL(token, value);
         res.sendStatus(200);
     }
     else {
@@ -52,18 +60,18 @@ app.post('/authenticate', (req, res) => {
 });
 
 app.get('/ping', (req, res) => {
-   res.send("cache service is up and running");
+    res.send("cache service is up and running");
 });
 
 //Delete users/me/logout
-app.post('/addUserToCache',  (req, res) => {
+app.post('/addUserToCache', (req, res) => {
 
     addUserToCache(req.body.token, req.body.id);
     res.sendStatus(200);
 
 });
 //Delete users/me/logout
-app.post('/removeUserFromCache',  (req, res) => {
+app.post('/removeUserFromCache', (req, res) => {
 
     if (getUserFromCache(req.body.token) !== undefined) {
 
@@ -76,7 +84,7 @@ app.post('/removeUserFromCache',  (req, res) => {
 
 });
 //Delete users/me/logout
-app.post('/updateUserInCache',  (req, res) => {
+app.post('/updateUserInCache', (req, res) => {
 
     updateCacheEntryTTL(req.body.token, req.body.id);
     res.sendStatus(200);
@@ -84,7 +92,7 @@ app.post('/updateUserInCache',  (req, res) => {
 });
 
 //return userId
-app.post('/getUserFromCache',  (req, res) => {
+app.post('/getUserFromCache', (req, res) => {
 
     var _userId = getUserFromCache(req.body.token);
     res.status(200).send(_userId);
