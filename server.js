@@ -40,7 +40,15 @@ app.get('/showAll', (req, res) => {
     var keys = mycache.keysSync();
     var values = [];
     keys.forEach(element => {
-        values.push({ element, mycache.getSync(element) });
+        values.push({ element, "v": mycache.getSync(element) });
+    })
+    res.send(values);
+});
+app.get('/deleteAll', (req, res) => {
+    var keys = mycache.keysSync();
+    var values = [];
+    keys.forEach(element => {
+        mycache.deleteSync(element);
     })
     res.send(values);
 });
