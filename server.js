@@ -36,7 +36,7 @@ function getUserFromCache(token) {
     return mycache.getSync(token);
 }
 
-app.get('showAll', (req, res) => {
+app.get('/showAll', (req, res) => {
     var keys = mycache.keysSync();
     var values = [];
     keys.forEach(element => {
