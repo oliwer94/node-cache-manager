@@ -3,7 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cache = require('persistent-cache');
 
-var mycache = cache({
+var mycache = cache({ 
     //duration: 1000 * 3600 * 24 //one day
     duration: 1000 * 3600 * 3 // 3 hour
 });
@@ -13,13 +13,9 @@ var app = express();
 app.use(bodyParser.json());
 
 function updateCacheEntryTTL(token, id) {
-    /* removeUserFromCache(token);
-     addUserToCache(token, id);*/
-    console.log("before delete", mycache.getSync(token));
+    
     mycache.deleteSync(token);
-    console.log("after delete", mycache.getSync(token));
     mycache.putSync(token, { "_userId": id });
-    console.log("put", mycache.getSync(token));
 }
 
 function addUserToCache(token, _userId) {
@@ -93,7 +89,7 @@ app.get('/showAll', (req, res) => {
     var values = [];
     keys.forEach(element => {
         values.push({ element, "v": mycache.getSync(element) });
-    })
+    });
     res.send(values);
 });
 
@@ -102,7 +98,7 @@ app.get('/deleteAll', (req, res) => {
     var values = [];
     keys.forEach(element => {
         mycache.deleteSync(element);
-    })
+    });
     res.send(values);
 });
 
